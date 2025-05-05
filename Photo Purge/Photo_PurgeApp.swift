@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct Photo_PurgeApp: App {
+    @StateObject private var photoLibraryManager = PhotoLibraryManager()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(photoLibraryManager)
         }
     }
 }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var photoLibraryManager: PhotoLibraryManager
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
@@ -27,13 +29,42 @@ struct ContentView: View {
                 
                 Spacer().frame(height: 20)
                 
-                NavigationLink(destination: MonthSelectionView()) {
-                    Text("Get started")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(width: 200, height: 50)
-                        .background(Color.blue)
-                        .cornerRadius(10)
+                if photoLibraryManager.authorizationStatus == .notDetermined {
+                    Button(action: {
+                        photoLibraryManager.requestPermission()
+                    }) {
+                        Text("Request Photo Access")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(width: 200, height: 50)
+                            .background(Color.blue)
+                            .cornerRadius(10)
+                    }
+                } else if photoLibraryManager.hasPermission {
+                    NavigationLink(destination: MonthSelectionView()) {
+                        Text("Get Started")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(width: 200, height: 50)
+                            .background(Color.blue)
+                            .cornerRadius(10)
+                    }
+                } else {
+                    Text("Photo Access Denided")
+                        .foregroundColor(.red)
+                    
+                    Button(action: {
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            UIApplication.shared.open(url)
+                        }
+                    }) {
+                        Text("Open Settings")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(width: 200, height: 50)
+                            .background(Color.blue)
+                            .cornerRadius(10)
+                    }
                 }
                 
                 Spacer()
