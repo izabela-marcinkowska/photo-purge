@@ -45,7 +45,7 @@ class PhotoLibraryManager: ObservableObject {
         startDateComponents.hour = 0
         startDateComponents.minute = 0
         startDateComponents.second = 0
-        let startDate = calendar.date(from: startDateComponents)
+        let startDate = calendar.date(from: startDateComponents)!
         
         var endDateComponents = DateComponents()
         endDateComponents.year = components.year
