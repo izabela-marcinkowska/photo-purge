@@ -163,4 +163,84 @@ struct PhotoReviewView: View {
             loadPhotosForMonth()
         }
     }
+    
+    private func loadPhotosForMonth() {
+        isLoading = true
+        
+        assets = photoLibraryManager.fetchPhotos(for: selectedMonth)
+        
+        if let assets = assets, assets.count > 0 {
+            loadCurrentImage()
+        } else {
+            isLoading = false
+        }
+    }
+    
+    private func loadCurrentImage() {
+        guard let assets = assets, currentIndex < assets.count else {
+            isLoading = false
+            return
+        }
+        
+        let asset = assets.object(at: currentIndex)
+        photoLibraryManager.loadImage(for: asset, targetSize: CGSize(width: screenSize.width, height: screenSize.height)) { image in
+            if let image = image {
+                self.currentImage = image
+                self.isLoading = false
+            }
+        }
+    }
+    
+    private func handleSwipe(width: CGFloat) {
+        if width > dragThreshold {
+            handleKeep()
+        } else if width < -dragThreshold {
+            handleDelete()
+        } else {
+            withAnimation(.spring()) {
+                dragOffset = 0
+                cardRotation = 0
+            }
+        }
+    }
+    
+    private func handleKeep() {
+        guard let assets = assets, currentIndex < assets.count else { return }
+        
+        let asset = assets.object(at: currentIndex)
+        photoAssetManager.unmarkForDeletion(asset: asset)
+        
+        moveToNextPhoto()
+    }
+    
+    private func handleDelete() {
+        guard let assets = assets, currentIndex < assets.count else { return }
+        
+        let asset = assets.object(at: currentIndex)
+        photoAssetManager.markForDeletion(asset: asset)
+        
+        moveToNextPhoto()
+    }
+    
+    private func moveToNextPhoto() {
+        withAnimation(.spring()) {
+            dragOffset = dragOffset > 0 ? 1000 : -1000
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            currentIndex += 1
+            
+            if let assets = assets, currentIndex >= assets.count {
+                showSummary = true
+                return
+            }
+            
+            dragOffset = 0
+            cardRotation = 0
+            
+            isLoading = true
+            loadCurrentImage()
+        }
+    }
+    
 }
