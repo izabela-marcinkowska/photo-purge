@@ -46,9 +46,8 @@ struct PhotoReviewView: View {
                             .foregroundColor(.secondary)
                         Spacer()
                     }
-                    .padding()
-                    
-                    Spacer()
+                    .padding(.horizontal)
+                    .padding(.top, 4)
                     
                     ZStack {
                         if let currentImage = currentImage {
@@ -69,69 +68,45 @@ struct PhotoReviewView: View {
                                             handleSwipe(width: value.translation.width)
                                         }
                                 )
-                            
                         }
                         
                         if dragOffset > 50 {
                             VStack {
                                 Image(systemName: "checkmark.circle.fill")
-                                    .font(.system(size: 60))
+                                    .font(.system(size: 80))
                                     .foregroundColor(.green)
-                                    .opacity(Double(dragOffset) / 150)
+                                    .opacity(min(Double(dragOffset) / 150, 0.8))
                                 Text("Keep")
-                                    .font(.title2)
+                                    .font(.title)
                                     .fontWeight(.bold)
                                     .foregroundColor(.green)
-                                    .opacity(Double(dragOffset) / 150)
+                                    .opacity(min(Double(dragOffset) / 150, 0.8))
                             }
+                            .offset(x: -120)
                         } else if dragOffset < -50 {
                             VStack {
                                 Image(systemName: "trash.circle.fill")
-                                    .font(.system(size: 60))
+                                    .font(.system(size: 80))
                                     .foregroundColor(.red)
-                                    .opacity(Double(-dragOffset) / 150)
+                                    .opacity(min(Double(-dragOffset) / 150, 0.8))
                                 Text("Delete")
-                                    .font(.system(size: 60))
+                                    .font(.title)
+                                    .fontWeight(.bold)
                                     .foregroundColor(.red)
-                                    .opacity(Double(-dragOffset) / 150)
+                                    .opacity(min(Double(-dragOffset) / 150, 0.8))
                             }
-                            
-                        }
-                        
-                    }
-                    .frame(height: screenSize.height * 0.6)
-                    .padding()
-                    
-                    Spacer()
-                    
-                    HStack(spacing: 60) {
-                        Button(action: {
-                            handleKeep()
-                        }) {
-                            VStack {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.system(size: 40))
-                                    .foregroundColor(.green)
-                                Text("Keep")
-                                    .font(.subheadline)
-                                    .foregroundColor(.green)
-                            }
-                        }
-                        
-                        Button(action: {
-                            handleDelete()
-                        }) {
-                            VStack {
-                                Image(systemName: "trash.circle.fill")
-                                    .font(.system(size: 40))
-                                    .foregroundColor(.red)
-                                Text("Delete")
-                                    .font(.subheadline)
-                                    .foregroundColor(.red)
-                            }
+                            .offset(x: 120)
                         }
                     }
-                    .padding(.bottom, 30)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(.horizontal)
+                    
+                    if currentIndex == 0 {
+                        Text("Swipe right to keep, left to delete")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .padding(.bottom, 8)
+                    }
                 }
                 
             } else {
