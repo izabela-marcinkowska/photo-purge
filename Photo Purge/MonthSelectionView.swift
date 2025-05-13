@@ -18,16 +18,26 @@ struct MonthSelectionView: View {
         return formatter.string(from: date)
     }
     
+    private func normalizeToMonthStart(date: Date) -> Date {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month], from: date)
+        return calendar.date(from: components) ?? date
+    }
+    
     var body: some View {
         VStack(spacing: 30) {
             Text("Select a month")
                 .font(.title)
                 .fontWeight(.bold)
-            DatePicker("", selection: $selectedDate, displayedComponents: .date)
-                .datePickerStyle(.wheel)
-                .labelsHidden()
-                .transformEffect(.init(scaleX: 1.1, y: 1.1))
-                .padding()
+            DatePicker(
+                "",
+                selection: Binding(get: { selectedDate }, set: { selectedDate = normalizeToMonthStart(date: $0)}),
+                displayedComponents: .date
+            )
+            .datePickerStyle(.wheel)
+            .labelsHidden()
+            .transformEffect(.init(scaleX: 1.1, y: 1.1))
+            .padding()
             
             Text("\(formattedMonth(from: selectedDate))")
                 .font(.title2)

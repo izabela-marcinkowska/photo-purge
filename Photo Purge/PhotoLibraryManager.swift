@@ -36,34 +36,21 @@ class PhotoLibraryManager: ObservableObject {
     func fetchPhotos(for date: Date) -> PHFetchResult<PHAsset> {
         let calendar = Calendar.current
         
-        let components = calendar.dateComponents([.year, .month], from: date)
+        let normalizedDate = calendar.date(from:
+            calendar.dateComponents([.year, .month], from: date))!
         
-        var startDateComponents = DateComponents()
-        startDateComponents.year = components.year
-        startDateComponents.month = components.month
-        startDateComponents.day = 1
-        startDateComponents.hour = 0
-        startDateComponents.minute = 0
-        startDateComponents.second = 0
-        let startDate = calendar.date(from: startDateComponents)!
+        let startDate = normalizedDate
         
-        var endDateComponents = DateComponents()
-        endDateComponents.year = components.year
-        endDateComponents.month = components.month! + 1
-        endDateComponents.day = 1
-        endDateComponents.hour = 0
-        endDateComponents.minute = 0
-        endDateComponents.second = 0
-        let endDate = calendar.date(from: endDateComponents)!
+        let endDate = calendar.date(byAdding: .month, value: 1, to: startDate)!
         
-        let predicate = NSPredicate(format: "creationDate >= %@ AND creationDate < %@", startDate as NSDate, endDate as NSDate)
+        let predicate = NSPredicate(format: "creationDate >= %@ AND creationDate < %@",
+            startDate as NSDate, endDate as NSDate)
         
         let fetchOptions = PHFetchOptions()
         fetchOptions.predicate = predicate
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         
         return PHAsset.fetchAssets(with: .image, options: fetchOptions)
-        
     }
     
     func loadImage(for asset: PHAsset, targetSize: CGSize, completion: @escaping(UIImage?) -> Void) {
