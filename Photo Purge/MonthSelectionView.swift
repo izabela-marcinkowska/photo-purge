@@ -11,6 +11,7 @@ import SwiftUI
 struct MonthSelectionView: View {
     @State private var selectedDate = Date()
     @State private var showPhotoReview = false
+    @EnvironmentObject var appViewModel: AppViewModel
     
     private func formattedMonth(from date: Date) -> String {
         let formatter = DateFormatter()
@@ -46,9 +47,9 @@ struct MonthSelectionView: View {
             
             Spacer()
             
-            NavigationLink {
-                PhotoReviewView(selectedMonth: selectedDate)
-            } label: {
+            Button(action: {
+                appViewModel.goToPhotoReview(month: selectedDate)
+            }) {
                 Text("Review Photos")
                     .font(.headline)
                     .foregroundColor(.white)
@@ -56,6 +57,7 @@ struct MonthSelectionView: View {
                     .background(Color.blue)
                     .cornerRadius(10)
             }
+            
             .padding(.bottom, 40)
         }
         .padding()

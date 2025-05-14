@@ -13,12 +13,12 @@ struct PhotoReviewView: View {
     
     @EnvironmentObject var photoLibraryManager: PhotoLibraryManager
     @EnvironmentObject var photoAssetManager: PhotoAssetManager
+    @EnvironmentObject var appViewModel: AppViewModel
     
     @State private var assets: PHFetchResult<PHAsset>?
     @State private var currentIndex = 0
     @State private var currentImage: UIImage?
     @State private var isLoading = true
-    @State private var showSummary = false
     @State private var dragOffset: CGFloat = 0
     @State private var cardRotation: Double = 0
     
@@ -127,12 +127,14 @@ struct PhotoReviewView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Done") {
-                    showSummary = true
+                    appViewModel.goToDeleteSummary()
                 }
             }
-        }
-        .navigationDestination(isPresented: $showSummary) {
-            DeleteSummaryView()
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button("Back") {
+                    appViewModel.goToMonthSelection()
+                }
+            }
         }
         .onAppear {
             loadPhotosForMonth()
@@ -206,7 +208,7 @@ struct PhotoReviewView: View {
             currentIndex += 1
             
             if let assets = assets, currentIndex >= assets.count {
-                showSummary = true
+                appViewModel.goToDeleteSummary()
                 return
             }
             

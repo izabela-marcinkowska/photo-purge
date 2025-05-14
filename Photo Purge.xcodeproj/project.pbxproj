@@ -6,8 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1764E57E2DD491C500BC9029 /* AppScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1764E57D2DD491C500BC9029 /* AppScreen.swift */; };
+		1764E5802DD492BB00BC9029 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1764E57F2DD492BB00BC9029 /* MainView.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		1764E4902DC4A11F00BC9029 /* Photo Purge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Photo Purge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1764E57D2DD491C500BC9029 /* AppScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppScreen.swift; sourceTree = "<group>"; };
+		1764E57F2DD492BB00BC9029 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +39,8 @@
 		1764E4872DC4A11F00BC9029 = {
 			isa = PBXGroup;
 			children = (
+				1764E57F2DD492BB00BC9029 /* MainView.swift */,
+				1764E57D2DD491C500BC9029 /* AppScreen.swift */,
 				1764E4922DC4A11F00BC9029 /* Photo Purge */,
 				1764E4912DC4A11F00BC9029 /* Products */,
 			);
@@ -119,6 +128,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1764E5802DD492BB00BC9029 /* MainView.swift in Sources */,
+				1764E57E2DD491C500BC9029 /* AppScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

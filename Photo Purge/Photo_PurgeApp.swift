@@ -11,12 +11,14 @@ import SwiftUI
 struct Photo_PurgeApp: App {
     @StateObject private var photoLibraryManager = PhotoLibraryManager()
     @StateObject private var photoAssetManager = PhotoAssetManager()
+    @StateObject private var appViewModel = AppViewModel()
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
                 .environmentObject(photoLibraryManager)
                 .environmentObject(photoAssetManager)
+                .environmentObject(appViewModel)
         }
     }
 }

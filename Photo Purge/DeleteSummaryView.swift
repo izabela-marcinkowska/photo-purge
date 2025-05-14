@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DeleteSummaryView: View {
     @EnvironmentObject var photoAssetManager: PhotoAssetManager
+    @EnvironmentObject var appViewModel: AppViewModel
     @State private var isDeleting = false
     @State private var deleteComplete = false
     @State private var deleteSuccess = false
@@ -28,6 +29,32 @@ struct DeleteSummaryView: View {
                 .font(.headline)
                 .multilineTextAlignment(.center)
                 .padding()
+            
+            Button(action: {
+                appViewModel.goToMonthSelection()
+            }) {
+                Text("Choose Another Month")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(width: 250, height: 50)
+                    .background(Color.blue)
+                    .cornerRadius(10)
+            }
+            .padding(.top, 20)
+            .disabled(isDeleting)
+            
+            Button(action: {
+                appViewModel.goToHome()
+            }) {
+                Text("Back to Home")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(width: 250, height: 50)
+                    .background(Color.gray)
+                    .cornerRadius(10)
+            }
+            .padding(.top, 10)
+            .disabled(isDeleting)
             
             if isDeleting {
                 ProgressView("Deleting photos...")

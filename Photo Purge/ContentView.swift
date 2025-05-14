@@ -9,9 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var photoLibraryManager: PhotoLibraryManager
+    @EnvironmentObject var appViewModel: AppViewModel
     
     var body: some View {
-        NavigationStack {
             VStack(spacing: 20) {
                 Image(systemName: "photo.stack")
                     .imageScale(.large)
@@ -41,7 +41,9 @@ struct ContentView: View {
                             .cornerRadius(10)
                     }
                 } else if photoLibraryManager.hasPermission {
-                    NavigationLink(destination: MonthSelectionView()) {
+                    Button(action: {
+                        appViewModel.goToMonthSelection()
+                    }) {
                         Text("Get Started")
                             .font(.headline)
                             .foregroundColor(.white)
@@ -72,7 +74,7 @@ struct ContentView: View {
             .padding()
             .navigationTitle("Photo Purge")
             .navigationBarTitleDisplayMode(.inline)
-        }
+        
     }
 }
 
